@@ -23,5 +23,5 @@ COPY . .
 # Expose port 8000
 EXPOSE 8000
 
-# Run gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "school.wsgi:application"]
+# Run gunicorn with the correct project name
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
