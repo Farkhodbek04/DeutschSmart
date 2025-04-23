@@ -11,7 +11,7 @@ class Slider(models.Model):
     description_ru = models.TextField(blank=True)
     description_en = models.TextField(blank=True)
     description_de = models.TextField(blank=True)
-    image = models.ImageField(upload_to='school/sliders/')
+    image = models.ImageField(upload_to='school/sliders/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     
 
