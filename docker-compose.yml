@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   web:
     build: .
-    command: gunicorn --bind 0.0.0.0:8000 config.wsgi:application
+    command: gunicorn --bind 0.0.0.0:8000 --timeout 90 config.wsgi:application
     volumes:
       - .:/app
     ports:
@@ -14,11 +12,19 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000"]
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]  # Updated endpoint
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+    develop:  # Added for docker compose watch
+      watch:
+        - action: rebuild
+          path: .
+          target: /app
+          ignore:
+            - node_modules/
+            - staticfiles/
 
   db:
     image: postgres:15
