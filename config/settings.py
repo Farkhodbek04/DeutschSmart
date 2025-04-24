@@ -134,6 +134,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  # React dev server
+    "http://localhost:5173",
+    'https://school-iota-flame.vercel.app/'
 ]
 # CSRF_TRUSTED_ORIGINS = ['https://yourapp.jprq.site']
