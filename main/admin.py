@@ -72,17 +72,17 @@ class NewsItemAdmin(admin.ModelAdmin):
     image_preview.short_description = "Rasm"
 
 
-@admin.register(NewsImage)
-class NewsImageAdmin(admin.ModelAdmin):
-    list_display = ['news', 'image_preview']
-    search_fields = ['news__title_uz']
-    ordering = ['-news__created_at']
+# @admin.register(NewsImage)
+# class NewsImageAdmin(admin.ModelAdmin):
+#     list_display = ['news', 'image_preview']
+#     search_fields = ['news__title_uz']
+#     ordering = ['-news__created_at']
 
-    def image_preview(self, obj):
-        if obj.image:
-            return format_html('<img src="{}" width="50" height="50" style="object-fit: cover;" />', obj.image.url)
-        return "Rasm yo'q"
-    image_preview.short_description = "Rasm"
+#     def image_preview(self, obj):
+#         if obj.image:
+#             return format_html('<img src="{}" width="50" height="50" style="object-fit: cover;" />', obj.image.url)
+#         return "Rasm yo'q"
+#     image_preview.short_description = "Rasm"
 
 
 @admin.register(Gallery)

@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -135,6 +136,32 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    'https://school-iota-flame.vercel.app/'
+    'https://school-iota-flame.vercel.app'
 ]
 # CSRF_TRUSTED_ORIGINS = ['https://yourapp.jprq.site']
+
+JAZZMIN_SETTINGS = {
+    # "custom_css": "admin/css/custom_admin.css",
+    "site_title": "DeutschSmart",
+    "site_header": "DeutschSmart Admin Panel",
+    "site_brand": "DeutschSmart",
+    "welcome_sign": "Welcome to the DeutschSmart Admin Panel",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "hide_apps": [],
+    "hide_models": [],
+    "icons": {
+        "auth": "fas fa-users-cog",
+        "auth.user": "fas fa-user",
+        "auth.Group": "fas fa-users",
+    },
+    "usermenu_links": [
+        {
+            "name": "Log out",
+            "url": "admin:logout",
+            "new_window": False,
+            "icon": "fas fa-sign-out-alt",
+            "method": "post"  # Ensure POST method for Django compatibility
+        },
+    ],
+}
