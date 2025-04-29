@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment
+.env
+
+# Docker
+.dockerignore
+Dockerfile
+docker-compose.yml
+docker-compose.override.yml
+
+# Git
+.git
+.gitignore
+
+# Node (if you have frontend)
+node_modules/
+
+# IDE and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Media and static (optional, if you build them elsewhere)
+staticfiles/
+media/
+
+# Test/Debug artifacts
+htmlcov/
+.coverage
+*.log
+junit.xml

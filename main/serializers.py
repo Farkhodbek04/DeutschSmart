@@ -1,8 +1,10 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import (
-    Slider, Achievement, Subscription, FAQ, Course, NewsItem,
-    NewsImage, Gallery, Teacher, Timetable, Message, Admission, Location
+    Slider, Achievement, Subscription, FAQ, About, Value, Journey, CourseLevel,
+    Course, Curriculum, CurriculumSubject, Benefit, NewsItem, NewsImage, Gallery,
+    Teacher, TeachingMethodology, Timetable, Message, Admission, AdmissionStep,
+    ApplicationForm, Info
 )
 
 # Static day translations
@@ -15,64 +17,117 @@ DAY_TRANSLATIONS = {
     "Shanba": {'uz': 'Shanba', 'ru': 'Суббота', 'en': 'Saturday', 'de': 'Samstag'},
 }
 
-
 class SliderSerializer(ModelSerializer):
     class Meta:
         model = Slider
         exclude = ['id', 'created_at']
-
 
 class AchievementSerializer(ModelSerializer):
     class Meta:
         model = Achievement
         exclude = ['id', 'created_at']
 
-
 class SubscriptionSerializer(ModelSerializer):
-    sub_type_uz = serializers.CharField(source='get_sub_type', read_only=True)
+    sub_type_uz = serializers.CharField(source='get_sub_type_uz', read_only=True)
 
     class Meta:
         model = Subscription
         exclude = ['id', 'created_at']
-
 
 class FAQSerializer(ModelSerializer):
     class Meta:
         model = FAQ
         exclude = ['id', 'created_at']
 
+class AboutSerializer(ModelSerializer):
+    class Meta:
+        model = About
+        exclude = ['id', 'created_at']
+
+class ValueSerializer(ModelSerializer):
+    class Meta:
+        model = Value
+        exclude = ['id', 'created_at']
+
+class JourneySerializer(ModelSerializer):
+    class Meta:
+        model = Journey
+        exclude = ['id', 'created_at']
+
+class CourseLevelSerializer(ModelSerializer):
+    class Meta:
+        model = CourseLevel
+        exclude = ['id', 'created_at']
 
 class CourseSerializer(ModelSerializer):
     class Meta:
         model = Course
         exclude = ['id', 'created_at']
 
+class CurriculumSerializer(ModelSerializer):
+    school_type = serializers.SerializerMethodField()
+
+    def get_school_type(self, obj):
+        language = self.get_language()
+        return getattr(obj, f'get_school_type_{language}_display')()
+
+    def get_language(self):
+        language = self.context.get('request').query_params.get('language', 'uz') if self.context.get('request') else 'uz'
+        valid_languages = ['uz', 'ru', 'en', 'de']
+        return language if language in valid_languages else 'uz'
+
+    class Meta:
+        model = Curriculum
+        exclude = ['id', 'created_at', 'is_active']
+
+class CurriculumSubjectSerializer(ModelSerializer):
+    class Meta:
+        model = CurriculumSubject
+        exclude = ['id', 'created_at']
+
+class BenefitSerializer(ModelSerializer):
+    class Meta:
+        model = Benefit
+        exclude = ['id', 'created_at']
 
 class NewsImageSerializer(ModelSerializer):
     class Meta:
         model = NewsImage
-        exclude = ['id']
-
+        fields = ['image']  # Exclude 'news' and 'id' for cleaner output
 
 class NewsItemSerializer(ModelSerializer):
-    images = NewsImageSerializer(many=True, read_only=True)
+    image = serializers.ImageField()  # Serialize the NewsItem's image field as a URL
+    images = NewsImageSerializer(many=True, read_only=True, source='newsimage_set')  # Use the reverse relation
 
     class Meta:
         model = NewsItem
         exclude = ['id', 'created_at', 'is_active']
 
-
 class GallerySerializer(ModelSerializer):
+    type = serializers.SerializerMethodField()
+
+    def get_type(self, obj):
+        language = self.get_language()
+        return getattr(obj, f'get_type_{language}_display')()
+
+    def get_language(self):
+        language = self.context.get('request').query_params.get('language', 'uz') if self.context.get('request') else 'uz'
+        valid_languages = ['uz', 'ru', 'en', 'de']
+        return language if language in valid_languages else 'uz'
+
     class Meta:
         model = Gallery
         exclude = ['id', 'created_at']
-
 
 class TeacherSerializer(ModelSerializer):
     class Meta:
         model = Teacher
         exclude = ['id', 'created_at']
 
+class TeachingMethodologySerializer(ModelSerializer):
+    class Meta:
+        model = TeachingMethodology
+        exclude = ['id']
 
 class TimetableSerializer(ModelSerializer):
     day = serializers.SerializerMethodField()
@@ -93,8 +148,7 @@ class TimetableSerializer(ModelSerializer):
 
     class Meta:
         model = Timetable
-        exclude = ['id', 'created_at',]
-
+        exclude = ['id', 'created_at']
 
 class MessageSerializer(ModelSerializer):
     class Meta:
@@ -106,20 +160,26 @@ class MessageSerializer(ModelSerializer):
             'created_at': {'read_only': True}
         }
 
-
-class AdmissionSerializer(ModelSerializer):
-    class Meta:
-        model = Admission
-        exclude = ['id', 'created_at']
-        
-        
 class AdmissionSerializer(ModelSerializer):
     class Meta:
         model = Admission
         exclude = ['id', 'created_at']
 
+class AdmissionStepSerializer(ModelSerializer):
+    class Meta:
+        model = AdmissionStep
+        exclude = ['id', 'created_at', 'is_finished']
 
-class LocationSerializer(ModelSerializer):
+class ApplicationFormSerializer(ModelSerializer):
+    class Meta:
+        model = ApplicationForm
+        exclude = ['id', 'is_read', 'created_at']
+        extra_kwargs = {
+            'is_read': {'read_only': True},
+            'created_at': {'read_only': True}
+        }
+
+class InfoSerializer(ModelSerializer):
     address = serializers.SerializerMethodField()
 
     def get_address(self, obj):
@@ -132,5 +192,5 @@ class LocationSerializer(ModelSerializer):
         return language if language in valid_languages else 'uz'
 
     class Meta:
-        model = Location
+        model = Info
         exclude = ['id', 'created_at']

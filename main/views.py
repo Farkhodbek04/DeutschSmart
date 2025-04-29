@@ -2,14 +2,17 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import (
-    Slider, Achievement, Subscription, FAQ, Course, NewsItem,
-    Gallery, Teacher, Timetable, Message, Admission, Location
+    Slider, Achievement, Subscription, FAQ, About, Value, Journey, CourseLevel,
+    Course, Curriculum, CurriculumSubject, Benefit, NewsItem, NewsImage, Gallery, Teacher,
+    TeachingMethodology, Timetable, Message, Admission, AdmissionStep, ApplicationForm, Info
 )
 from .serializers import (
-    SliderSerializer, AchievementSerializer, SubscriptionSerializer,
-    FAQSerializer, CourseSerializer, NewsItemSerializer,
-    GallerySerializer, TeacherSerializer, TimetableSerializer,
-    MessageSerializer, AdmissionSerializer, LocationSerializer
+    SliderSerializer, AchievementSerializer, SubscriptionSerializer, FAQSerializer,
+    AboutSerializer, ValueSerializer, JourneySerializer, CourseLevelSerializer,
+    CourseSerializer, CurriculumSerializer, CurriculumSubjectSerializer, BenefitSerializer,
+    NewsItemSerializer, GallerySerializer, TeacherSerializer, TeachingMethodologySerializer,
+    TimetableSerializer, MessageSerializer, AdmissionSerializer, AdmissionStepSerializer,
+    ApplicationFormSerializer, InfoSerializer
 )
 
 # Static day translations for response keys
@@ -43,9 +46,44 @@ class FAQListView(generics.ListAPIView):
     serializer_class = FAQSerializer
 
 
+class AboutListView(generics.ListAPIView):
+    queryset = About.objects.all()
+    serializer_class = AboutSerializer
+
+
+class ValueListView(generics.ListAPIView):
+    queryset = Value.objects.all()
+    serializer_class = ValueSerializer
+
+
+class JourneyListView(generics.ListAPIView):
+    queryset = Journey.objects.all()
+    serializer_class = JourneySerializer
+
+
+class CourseLevelListView(generics.ListAPIView):
+    queryset = CourseLevel.objects.all()
+    serializer_class = CourseLevelSerializer
+
+
 class CourseListView(generics.ListAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+
+
+class CurriculumListView(generics.ListAPIView):
+    queryset = Curriculum.objects.filter(is_active=True)
+    serializer_class = CurriculumSerializer
+
+
+class CurriculumSubjectListView(generics.ListAPIView):
+    queryset = CurriculumSubject.objects.all()
+    serializer_class = CurriculumSubjectSerializer
+
+
+class BenefitListView(generics.ListAPIView):
+    queryset = Benefit.objects.all()
+    serializer_class = BenefitSerializer
 
 
 class NewsItemListView(generics.ListAPIView):
@@ -63,11 +101,15 @@ class TeacherListView(generics.ListAPIView):
     serializer_class = TeacherSerializer
 
 
+class TeachingMethodologyListView(generics.ListAPIView):
+    queryset = TeachingMethodology.objects.all()
+    serializer_class = TeachingMethodologySerializer
+
+
 class TimetableView(APIView):
     def get(self, request):
         grade = request.query_params.get('grade')
         language = request.query_params.get('lang', 'uz')
-        print(f"Received language: {language}")
 
         if not grade:
             return Response({"error": "Grade parameter is required"}, status=status.HTTP_400_BAD_REQUEST)
@@ -94,7 +136,7 @@ class TimetableView(APIView):
         # Serialize all items with context
         serializer = TimetableSerializer(timetable, many=True, context={'request': request})
         for item in serializer.data:
-            day_label = item['day']
+            day_label = DAY_TRANSLATIONS[item['day']][language]
             weekly_timetable[day_label].append(item)
         
         return Response(weekly_timetable)
@@ -108,9 +150,18 @@ class MessageCreateView(generics.CreateAPIView):
 class AdmissionListView(generics.ListAPIView):
     queryset = Admission.objects.all()
     serializer_class = AdmissionSerializer
-    
-    
-class LocationListView(generics.ListAPIView):
-    queryset = Location.objects.all()
-    serializer_class = LocationSerializer
-    
+
+
+class AdmissionStepListView(generics.ListAPIView):
+    queryset = AdmissionStep.objects.all()
+    serializer_class = AdmissionStepSerializer
+
+
+class ApplicationFormCreateView(generics.CreateAPIView):
+    queryset = ApplicationForm.objects.all()
+    serializer_class = ApplicationFormSerializer
+
+
+class InfoListView(generics.ListAPIView):
+    queryset = Info.objects.all()
+    serializer_class = InfoSerializer
