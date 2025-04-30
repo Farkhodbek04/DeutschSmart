@@ -137,7 +137,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    'https://school-iota-flame.vercel.app'
+    'http://deutschsmart.uz/',
 ]
 # CSRF_TRUSTED_ORIGINS = ['https://yourapp.jprq.site']
 
