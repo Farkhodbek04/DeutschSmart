@@ -1,0 +1,14 @@
+/* Stack the subject fields vertically */
+.form-row.field-subject_uz,
+.form-row.field-subject_ru,
+.form-row.field-subject_en,
+.form-row.field-subject_de {
+    display: block !important;
+    width: 100% !important;
+    clear: both !important;
+}
+
+/* Optional: Adjust spacing */
+.form-row {
+    margin-bottom: 15px;
+}

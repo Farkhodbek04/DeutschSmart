@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['back.deutschsmart.uz', '82.208.22.225']
 
@@ -140,7 +140,13 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    'http://deutschsmart.uz/',
+    'http://deutschsmart.uz/',	
+    "https://deutschsmart.uz",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "http://deutschsmart.uz",  # Frontend origin
+    "https://deutschsmart.uz",
+    "https://back.deutschsmart.uz",  # Backend origin (where the request is sent)
 ]
 # CSRF_TRUSTED_ORIGINS = ['https://yourapp.jprq.site']
 
