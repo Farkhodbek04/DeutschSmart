@@ -138,11 +138,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    'http://deutschsmart.uz/',	
-    "https://deutschsmart.uz",
-]
 CSRF_TRUSTED_ORIGINS = [
     "http://deutschsmart.uz",  # Frontend origin
     "https://deutschsmart.uz",

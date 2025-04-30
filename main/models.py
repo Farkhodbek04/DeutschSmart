@@ -72,6 +72,7 @@ class Subscription(models.Model):
     description_ru = models.TextField(blank=True)
     description_en = models.TextField(blank=True)
     description_de = models.TextField(blank=True)
+    features = models.TextField(default='Default Feature, change it!')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def get_sub_type(self, language='en'):
@@ -384,39 +385,26 @@ class Gallery(models.Model):
 
 
 class Teacher(models.Model):
-    first_name_uz = models.CharField(max_length=100)
-    first_name_ru = models.CharField(max_length=100)
-    first_name_en = models.CharField(max_length=100)
-    first_name_de = models.CharField(max_length=100)
-    last_name_uz = models.CharField(max_length=100)
-    last_name_ru = models.CharField(max_length=100)
-    last_name_en = models.CharField(max_length=100)
-    last_name_de = models.CharField(max_length=100)
+    full_name_uz = models.CharField(max_length=100)
+    full_name_ru = models.CharField(max_length=100)
+    full_name_en = models.CharField(max_length=100)
+    full_name_de = models.CharField(max_length=100)
     image = models.ImageField(upload_to='school/teachers/')
-    subject_uz = models.CharField(max_length=255)
-    subject_ru = models.CharField(max_length=255)
-    subject_en = models.CharField(max_length=255)
-    subject_de = models.CharField(max_length=255)
-    edu_level_uz = models.CharField(max_length=100)
-    edu_level_ru = models.CharField(max_length=100)
-    edu_level_en = models.CharField(max_length=100)
-    edu_level_de = models.CharField(max_length=100)
+    subject_uz = models.CharField(max_length=255, null=True, blank=True)
+    subject_ru = models.CharField(max_length=255, null=True, blank=True)
+    subject_en = models.CharField(max_length=255, null=True, blank=True)
+    subject_de = models.CharField(max_length=255, null=True, blank=True)
+    edu_level_uz = models.CharField(max_length=100, null=True, blank=True)
+    edu_level_ru = models.CharField(max_length=100, null=True, blank=True)
+    edu_level_en = models.CharField(max_length=100, null=True, blank=True)
+    edu_level_de = models.CharField(max_length=100, null=True, blank=True)
     num_of_experience = models.PositiveSmallIntegerField()
     languages = models.CharField(max_length=255)
-    bio_uz = models.TextField(blank=True)
-    bio_ru = models.TextField(blank=True)
-    bio_en = models.TextField(blank=True)
-    bio_de = models.TextField(blank=True)
-    certifications_uz = models.TextField(blank=True)
-    certifications_ru = models.TextField(blank=True)
-    certifications_en = models.TextField(blank=True)
-    certifications_de = models.TextField(blank=True)
-    from_country = models.CharField(max_length=100)
     phone_number = models.CharField(
         max_length=14,
         validators=[RegexValidator(r'^\+?1?\d{9,15}$', message="Noto'g'ri telefon raqami")]
     )
-    telegram_url = models.URLField(verbose_name='Telegram havola')
+    telegram_url = models.URLField(verbose_name='Telegram havola', null=True, blank=True)
     insta_url = models.URLField(verbose_name='Instagram havola', null=True, blank=True)
     facebook_url = models.URLField(verbose_name='Facebook havola', null=True, blank=True)
     linkedIn_url = models.URLField(verbose_name='LinkedIN havola', null=True, blank=True)
@@ -424,12 +412,12 @@ class Teacher(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def __str__(self):
-        return f"{self.first_name_uz} {self.last_name_uz} - {self.subject_uz}"
+        return f"{self.full_name_uz} - {self.subject_uz}"
 
     class Meta:
         verbose_name = "O'qituvchi"
         verbose_name_plural = "O'qituvchilar"
-        ordering = ['last_name_uz', 'first_name_uz']
+        ordering = ['full_name_uz' ]
         
         
 class TeachingMethodology(models.Model):
@@ -447,7 +435,7 @@ class TeachingMethodology(models.Model):
 
     class Meta:
         verbose_name_plural = "O'qitish metodologiyalari"
-        ordering = ['title_uz'  ]
+        ordering = ['title_uz']
 
 class Timetable(models.Model):
     class Grade(models.IntegerChoices):
@@ -601,14 +589,16 @@ class Info(models.Model):
     address_de = models.CharField(max_length=255, help_text="Manzil (Nemischacha)")
     phone_number = models.CharField(
         max_length=14,
-        validators=[RegexValidator(r'^\+?1?\d{9,15}$', message="Noto'g'ri telefon raqami")]
+        validators=[RegexValidator(r'^\+?1?\d{9,15}$', message="Noto'g'ri telefon raqami")],
+        blank=True,
+        null=True
     )
     created_at = models.DateTimeField(auto_now_add=True)
-    telegram_url = models.URLField(verbose_name='Telegram havola')
-    insta_url = models.URLField(verbose_name='Instagram havola')
-    facebook_url = models.URLField(verbose_name='Facebook havola')
-    linkedIn_url = models.URLField(verbose_name='LinkedIN havola')
-    x_url = models.URLField(verbose_name='X havola')
+    telegram_url = models.URLField(verbose_name='Telegram havola', blank=True, null=True)
+    insta_url = models.URLField(verbose_name='Instagram havola', blank=True, null=True)
+    facebook_url = models.URLField(verbose_name='Facebook havola', blank=True, null=True)
+    linkedIn_url = models.URLField(verbose_name='LinkedIN havola', blank=True, null=True)
+    x_url = models.URLField(verbose_name='X havola', blank=True, null=True)
 
     def __str__(self):
         return self.address_uz

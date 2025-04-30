@@ -28,7 +28,6 @@ class AchievementSerializer(ModelSerializer):
         exclude = ['id', 'created_at']
 
 class SubscriptionSerializer(ModelSerializer):
-    sub_type_uz = serializers.CharField(source='get_sub_type_uz', read_only=True)
 
     class Meta:
         model = Subscription

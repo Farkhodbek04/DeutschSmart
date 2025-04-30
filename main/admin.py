@@ -171,10 +171,10 @@ class GalleryAdmin(admin.ModelAdmin):
 
 @admin.register(Teacher)
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ['first_name_uz', 'last_name_uz', 'subject_uz', 'image_preview', 'phone_number']
-    search_fields = ['first_name_uz', 'last_name_uz', 'subject_uz']
+    list_display = ['full_name_uz', 'subject_uz', 'image_preview', 'phone_number']
+    search_fields = ['full_name_uz', 'subject_uz']
     readonly_fields = ['created_at']
-    ordering = ['last_name_uz', 'first_name_uz']
+    ordering = ['full_name_uz']
 
     def image_preview(self, obj):
         if obj.image:
