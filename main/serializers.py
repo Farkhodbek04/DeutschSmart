@@ -100,7 +100,7 @@ class NewsItemSerializer(ModelSerializer):
 
     class Meta:
         model = NewsItem
-        exclude = ['id', 'created_at', 'is_active']
+        exclude = ['id', 'is_active']
 
 class GallerySerializer(ModelSerializer):
     type = serializers.SerializerMethodField()
