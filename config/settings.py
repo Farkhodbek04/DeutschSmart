@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['back.deutschsmart.uz', '82.208.22.225']
+ALLOWED_HOSTS = ['back.deutschsmart.uz', '82.208.22.225','127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -138,12 +138,20 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    "https://deutschsmart.uz",  # Your frontend URL
+    "http://deutschsmart.uz",   # Include HTTP if used in development
+]
+
 CSRF_TRUSTED_ORIGINS = [
     "http://deutschsmart.uz",  # Frontend origin
     "https://deutschsmart.uz",
     "https://back.deutschsmart.uz",  # Backend origin (where the request is sent)
 ]
 # CSRF_TRUSTED_ORIGINS = ['https://yourapp.jprq.site']
+
+CORS_ALLOW_CREDENTIALS = True
 
 JAZZMIN_SETTINGS = {
     # "custom_css": "admin/css/custom_admin.css",

@@ -72,7 +72,10 @@ class Subscription(models.Model):
     description_ru = models.TextField(blank=True)
     description_en = models.TextField(blank=True)
     description_de = models.TextField(blank=True)
-    features = models.TextField(default='Default Feature, change it!')
+    features_uz = models.TextField(default='Default Feature, change it!')
+    features_ru = models.TextField(default='Default Feature, change it!')
+    features_en = models.TextField(default='Default Feature, change it!')
+    features_de = models.TextField(default='Default Feature, change it!')
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def get_sub_type(self, language='en'):
