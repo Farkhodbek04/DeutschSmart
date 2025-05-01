@@ -142,6 +142,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOWED_ORIGINS = [
     "https://deutschsmart.uz",  # Your frontend URL
     "http://deutschsmart.uz",   # Include HTTP if used in development
+    "http://localhost:5173",
+    "https://localhost:5173",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
