@@ -4,7 +4,7 @@ from .models import (
     Slider, Achievement, Subscription, FAQ, About, Value, Journey, CourseLevel,
     Course, Curriculum, CurriculumSubject, Benefit, NewsItem, NewsImage, Gallery,
     Teacher, TeachingMethodology, Timetable, Message, Admission, AdmissionStep,
-    ApplicationForm, Info
+    ApplicationForm, Info,AdmissionDiscount
 )
 
 
@@ -35,6 +35,14 @@ class SubscriptionAdmin(admin.ModelAdmin):
     search_fields = ['sub_type_uz', 'description_uz']
     readonly_fields = ['created_at']
     ordering = ['sub_type_uz', '-created_at']
+    
+
+@admin.register(AdmissionDiscount)
+class AdmissionDiscountAdmin(admin.ModelAdmin):
+    list_display = ['admission_year', 'discount_text_uz', 'created_at']
+    search_fields = ['admission_year', 'discount_text_uz',]
+    readonly_fields = ['created_at']
+    ordering = ['admission_year', '-created_at']
 
 
 @admin.register(FAQ)
@@ -175,6 +183,7 @@ class TeacherAdmin(admin.ModelAdmin):
     search_fields = ['full_name_uz', 'subject_uz']
     readonly_fields = ['created_at']
     ordering = ['full_name_uz']
+
 
     def image_preview(self, obj):
         if obj.image:

@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 
 from django.urls import path
 from .views import (
-    SliderListView, AchievementListView, SubscriptionListView, FAQListView,
+    SliderListView, AchievementListView, SubscriptionListView, AdmissionDiscountListView, FAQListView,
     AboutListView, ValueListView, JourneyListView, CourseLevelListView,
     CourseListView, CurriculumListView, CurriculumSubjectListView, BenefitListView,
     NewsItemListView, GalleryListView, TeacherListView, TeachingMethodologyListView,
@@ -16,6 +16,7 @@ urlpatterns = [
     path('sliders/', SliderListView.as_view(), name='slider-list'),
     path('achievements/', AchievementListView.as_view(), name='achievement-list'),
     path('subscriptions/', SubscriptionListView.as_view(), name='subscription-list'),
+    path('admission-discount/', AdmissionDiscountListView.as_view(), name='admission-discount-list'),
     path('faqs/', FAQListView.as_view(), name='faq-list'),
     path('about/', AboutListView.as_view(), name='about-list'),
     path('values/', ValueListView.as_view(), name='value-list'),

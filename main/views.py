@@ -2,12 +2,12 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import (
-    Slider, Achievement, Subscription, FAQ, About, Value, Journey, CourseLevel,
+    Slider, Achievement, Subscription, AdmissionDiscount, FAQ, About, Value, Journey, CourseLevel,
     Course, Curriculum, CurriculumSubject, Benefit, NewsItem, NewsImage, Gallery, Teacher,
     TeachingMethodology, Timetable, Message, Admission, AdmissionStep, ApplicationForm, Info
 )
 from .serializers import (
-    SliderSerializer, AchievementSerializer, SubscriptionSerializer, FAQSerializer,
+    SliderSerializer, AchievementSerializer, SubscriptionSerializer, AdmissionDiscountSerializer, FAQSerializer,
     AboutSerializer, ValueSerializer, JourneySerializer, CourseLevelSerializer,
     CourseSerializer, CurriculumSerializer, CurriculumSubjectSerializer, BenefitSerializer,
     NewsItemSerializer, GallerySerializer, TeacherSerializer, TeachingMethodologySerializer,
@@ -39,6 +39,11 @@ class AchievementListView(generics.ListAPIView):
 class SubscriptionListView(generics.ListAPIView):
     queryset = Subscription.objects.all()
     serializer_class = SubscriptionSerializer
+    
+    
+class AdmissionDiscountListView(generics.ListAPIView):
+    queryset = AdmissionDiscount.objects.all()
+    serializer_class = AdmissionDiscountSerializer
 
 
 class FAQListView(generics.ListAPIView):

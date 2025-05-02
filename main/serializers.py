@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import (
-    Slider, Achievement, Subscription, FAQ, About, Value, Journey, CourseLevel,
+    Slider, Achievement, Subscription, AdmissionDiscount, FAQ, About, Value, Journey, CourseLevel,
     Course, Curriculum, CurriculumSubject, Benefit, NewsItem, NewsImage, Gallery,
     Teacher, TeachingMethodology, Timetable, Message, Admission, AdmissionStep,
     ApplicationForm, Info
@@ -31,6 +31,13 @@ class SubscriptionSerializer(ModelSerializer):
 
     class Meta:
         model = Subscription
+        exclude = ['id', 'created_at']
+        
+        
+class AdmissionDiscountSerializer(ModelSerializer):
+
+    class Meta:
+        model = AdmissionDiscount
         exclude = ['id', 'created_at']
 
 class FAQSerializer(ModelSerializer):

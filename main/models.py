@@ -41,41 +41,21 @@ class Achievement(models.Model):
 
 
 class Subscription(models.Model):
-    SUB_TYPE_CHOICES_UZ = [
-        ('Asosiy', 'Asosiy'),
-        ('Standart', 'Standart'),
-        ('Premium', 'Premium'),
-    ]
-    SUB_TYPE_CHOICES_RU = [
-        ('Базовый', 'Базовый'),
-        ('Стандартный', 'Стандартный'),
-        ('Премиум', 'Премиум'),
-    ]
-    SUB_TYPE_CHOICES_EN = [
-        ('Basic', 'Basic'),
-        ('Standard', 'Standard'),
-        ('Premium', 'Premium'),
-    ]
-    SUB_TYPE_CHOICES_DE = [
-        ('Basis', 'Basis'),
-        ('Standard', 'Standard'),
-        ('Premium', 'Premium'),
-    ]
-
-    sub_type_uz = models.CharField(max_length=20, choices=SUB_TYPE_CHOICES_UZ, blank=True)
-    sub_type_ru = models.CharField(max_length=20, choices=SUB_TYPE_CHOICES_RU, blank=True)
-    sub_type_en = models.CharField(max_length=20, choices=SUB_TYPE_CHOICES_EN, blank=True)
-    sub_type_de = models.CharField(max_length=20, choices=SUB_TYPE_CHOICES_DE, blank=True)
+    
+    sub_type_uz = models.CharField(max_length=255, blank=True, verbose_name="Obuna turi (uz)")
+    sub_type_ru = models.CharField(max_length=255, blank=True, verbose_name="Obuna turi (ru)")
+    sub_type_en = models.CharField(max_length=255, blank=True, verbose_name="Obuna turi (en)")
+    sub_type_de = models.CharField(max_length=255, blank=True, verbose_name="Obuna turi (de)")
     monthly_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
     yearly_price = models.DecimalField(max_digits=10, decimal_places=2, validators=[MinValueValidator(0)])
-    description_uz = models.TextField(blank=True)
-    description_ru = models.TextField(blank=True)
-    description_en = models.TextField(blank=True)
-    description_de = models.TextField(blank=True)
-    features_uz = models.TextField(default='Default Feature, change it!')
-    features_ru = models.TextField(default='Default Feature, change it!')
-    features_en = models.TextField(default='Default Feature, change it!')
-    features_de = models.TextField(default='Default Feature, change it!')
+    description_uz = models.TextField(blank=True, verbose_name="Tavsif (uz)")
+    description_ru = models.TextField(blank=True, verbose_name="Tavsif (ru)")
+    description_en = models.TextField(blank=True, verbose_name="Tavsif (en)")
+    description_de = models.TextField(blank=True, verbose_name="Tavsif (de)")
+    features_uz = models.TextField(default='Default Feature, change it!', verbose_name="Xususiyatlari (uz)")
+    features_ru = models.TextField(default='Default Feature, change it!', verbose_name="Xususiyatlari (ru)")
+    features_en = models.TextField(default='Default Feature, change it!', verbose_name="Xususiyatlari (en)")
+    features_de = models.TextField(default='Default Feature, change it!', verbose_name="Xususiyatlari (de)")
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
 
     def get_sub_type(self, language='en'):
@@ -90,6 +70,20 @@ class Subscription(models.Model):
         verbose_name = "Obuna"
         verbose_name_plural = "Obunalar"
         ordering = ['sub_type_uz', '-created_at']
+        
+class AdmissionDiscount(models.Model):
+    admission_year = models.CharField(max_length=20)
+    discount_text_uz = models.TextField(verbose_name="Chegirma tavsifi (UZ)", default="Defaoult discount text, change it in Admin panel!")
+    discount_text_ru = models.TextField(verbose_name="Chegirma tavsifi (RU)", default="Defaoult discount text, change it in Admin panel!")
+    discount_text_en = models.TextField(verbose_name="Chegirma tavsifi (EN)", default="Defaoult discount text, change it in Admin panel!")
+    discount_text_de = models.TextField(verbose_name="Chegirma tavsifi (DE)", default="Defaoult discount text, change it in Admin panel!")
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True) 
+    
+    def __str__(self):
+        return self.discount_text_uz
+    class Meta:
+        verbose_name_plural = "Chegirma tavsifi"
+        ordering = ['discount_text_uz', '-created_at']
 
 
 class FAQ(models.Model):
