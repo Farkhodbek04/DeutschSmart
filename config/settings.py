@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['back.deutschsmart.uz', '82.208.22.225','127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['back.deutschsmart.uz', 'deutschsmart.uz', '82.208.22.225','127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -132,6 +132,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+# Media files
+MEDIA_URL = '/media/'  # URL prefix for media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Host path: /var/www/DeutschSmart/media
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

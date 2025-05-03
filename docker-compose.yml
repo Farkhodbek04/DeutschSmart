@@ -1,3 +1,4 @@
+version: '3'
 
 services:
   web:
@@ -9,6 +10,8 @@ services:
       "
     volumes:
       - .:/app
+      - /var/www/DeutschSmart/staticfiles:/app/staticfiles  # Explicit mapping
+      - /var/www/DeutschSmart/media:/app/media  # Explicit mapping
     ports:
       - "8000:8000"
     env_file:
