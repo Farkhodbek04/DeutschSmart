@@ -16,7 +16,6 @@ from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -24,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['back.deutschsmart.uz', 'deutschsmart.uz', '82.208.22.225','127.0.0.1', 'localhost']
-
+ALLOWED_HOSTS = ['back.deutschsmart.uz', 'deutschsmart.uz', '82.208.22.225', '127.0.0.1', 'localhost']
 
 # Application definition
 
@@ -74,7 +72,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'config.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
@@ -88,7 +85,6 @@ DATABASES = {
         'PORT': config('DB_PORT'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -108,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
@@ -120,22 +115,22 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 import os
 
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles/')
-
-# Optional: Only if you have a project-level static/ directory
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = []  # Removed since no custom static/ directory is confirmed
 
 # Media files
-MEDIA_URL = '/media/'  # URL prefix for media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # Host path: /var/www/DeutschSmart/media
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+SECURE_SSL_REDIRECT = True  # Redirect all HTTP requests to HTTPS
+SESSION_COOKIE_SECURE = True  # Ensure session cookies use HTTPS
+CSRF_COOKIE_SECURE = True  # Ensure CSRF cookies use HTTPS
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')  # Handle reverse proxy (Nginx)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
@@ -144,23 +139,29 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
 CORS_ALLOWED_ORIGINS = [
-    "https://deutschsmart.uz",  # Your frontend URL
-    "http://deutschsmart.uz",   # Include HTTP if used in development
+    "https://deutschsmart.uz",
+    "http://deutschsmart.uz",
     "http://localhost:5173",
     "https://localhost:5173",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://deutschsmart.uz",  # Frontend origin
+    "http://deutschsmart.uz",
     "https://deutschsmart.uz",
-    "https://back.deutschsmart.uz",  # Backend origin (where the request is sent)
+    "https://back.deutschsmart.uz",
 ]
-# CSRF_TRUSTED_ORIGINS = ['https://yourapp.jprq.site']
 
 CORS_ALLOW_CREDENTIALS = True
 
+# Security settings for production
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+    SESSION_COOKIE_SECURE = True  # Cookies only sent over HTTPS
+    CSRF_COOKIE_SECURE = True  # CSRF cookies over HTTPS
+    SECURE_BROWSER_XSS_FILTER = True
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+
 JAZZMIN_SETTINGS = {
-    # "custom_css": "admin/css/custom_admin.css",
     "site_title": "DeutschSmart",
     "site_header": "DeutschSmart Admin Panel",
     "site_brand": "DeutschSmart",
@@ -180,7 +181,7 @@ JAZZMIN_SETTINGS = {
             "url": "admin:logout",
             "new_window": False,
             "icon": "fas fa-sign-out-alt",
-            "method": "post"  # Ensure POST method for Django compatibility
+            "method": "post",
         },
     ],
 }
